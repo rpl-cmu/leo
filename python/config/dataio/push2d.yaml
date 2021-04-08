@@ -1,0 +1,38 @@
+dataio:
+  dstdir_dataset: /local/datasets/real
+  srcdir_pushest: /local/datasets/pushest
+
+  # dataset_name: push2d
+  
+  # disc datasets [*-straight-line-*,  *-curves-*, *-trial1-*]
+  # dataset_name: 20200624_pushing-6in-disc-curves-test-keypoint
+  # dataset_name: 20200624_pushing-6in-disc-trial1-all-keypoint
+
+  # rect datasets [*-edges-*, *-corners-*]
+  # dataset_name: 20200928_rectangle-pushing-edges-test-keypoint
+  # dataset_name: 20200928_rectangle-pushing-corners-test-keypoint
+
+  # ellipse datasets [*-straight-*, *-*]
+  dataset_name: 20200928_ellipse-pushing-test-keypoint
+  # dataset_name: 20200928_ellipse-pushing-straight-test-keypoint
+
+  num_steps: 300
+  num_seqs: 30
+  num_episodes_seq: 3
+
+  n_data_train: 20
+  n_data_test: 10
+
+measurements:
+  tactile:
+    wmin: 10
+    wmax: 20
+
+  noise_models: # sigma values
+    random: False
+
+    ee_pose_prior: [1e-5, 1e-5, 1e-5]
+    qs_push_motion: [1e-3, 1e-3, 1e-3]
+    sdf_intersection: [1e-2]
+    tactile_rel_meas: [1, 1, 1e-5]
+    binary_interseq_obj: [1e-9, 1e-9, 1e-9]

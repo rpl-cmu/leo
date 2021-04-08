@@ -1,0 +1,112 @@
+dataio:
+
+  srcdir_dataset: /local/datasets/sim
+  dataset_name: nav2d/dataset_0000 # nav2d, nav2dtime
+
+  dataset_type: nav2d
+  model_type: fixed_cov # fixed_cov, varying_cov
+
+options:
+  seed: 0
+
+theta_init:
+
+  noisy: False
+  sigma_noise: 5
+
+  # datasets 1, 2: nav2d, fixed_cov
+  sigma_inv_odom_vals: [1., 1., 1.]
+  sigma_inv_gps_vals: [10., 10., 10.]
+  # sigma_inv_odom_vals: [1e1, 1e1, 1e1]
+  # sigma_inv_gps_vals: [1., 1., 1e1]
+
+  # dataset 3, 4: nav2d, varying_cov
+  sigma_inv_odom0_vals: [5., 5., 5.]
+  sigma_inv_gps0_vals: [1., 1., 5.]
+  sigma_inv_odom1_vals: [10., 10., 10.]
+  sigma_inv_gps1_vals: [1., 1., 1.]
+
+  # sigma_inv_odom0_vals: [1., 1., 1.]
+  # sigma_inv_gps0_vals: [5., 5., 5.]
+  # sigma_inv_odom1_vals: [1., 1., 1.]
+  # sigma_inv_gps1_vals: [1e1, 1e1, 1e1]
+
+theta_exp:
+  # dataset 1: nav2d, fixed_cov [nav2d/dataset_0000]
+  sigma_inv_odom_vals: [1e1, 1e1, 1e1]
+  sigma_inv_gps_vals: [1., 1., 1e1]
+
+  # dataset 2: nav2d, fixed_cov [nav2d/dataset_0001]
+  # sigma_inv_odom_vals: [1., 2., 1e1]
+  # sigma_inv_gps_vals: [2., 1., 1e1]
+
+  # dataset 3: nav2d, varying_cov [nav2dtime/dataset_0000]
+  sigma_inv_odom0_vals: [1e1, 1e1, 1e1]
+  sigma_inv_gps0_vals: [1., 1., 1e1]
+  sigma_inv_odom1_vals: [1., 1., 1.]
+  sigma_inv_gps1_vals: [1e1, 1e1, 1e1]
+
+  # dataset 4: nav2d, varying_cov [nav2dtime/dataset_0001]
+  # sigma_inv_odom0_vals: [1., 1., 1.]
+  # sigma_inv_gps0_vals: [1e1, 1e1, 1e1]
+  # sigma_inv_odom1_vals: [1e1, 1e1, 1e1]
+  # sigma_inv_gps1_vals: [1., 1., 1e1]
+
+optim:
+  nsteps: 500
+  verbose: False
+
+  save_logger: False
+
+  save_fig: True
+  show_fig: False
+  vis_step: False
+
+logo:
+  max_iters: 30
+  n_data_train: 1
+  n_data_test: 1
+  test_idx_offset: 20
+
+  lr: 0.1
+  lmd: 0.
+
+  pool_processes: 8
+  lr_scheduler: True
+  realizability_coeff: 0. # 0: fully realizable
+
+  sampler: False
+  n_samples: 1
+
+  tb_flag: True
+  save_video: False
+
+  use_traj_convergence: False
+  eps_diff_traj_err_trans: 5e-2
+  eps_diff_traj_err_rot: 5e-2
+  eps_traj_err_trans: 1e-1
+  eps_traj_err_rot: 1e-1
+
+plot:
+  colors:
+    gt: dimgray
+    opt: tab:purple
+
+    # odom: [0, 0.4470, 0.7410] # blue
+    # gps: [0.4940, 0.1840, 0.5560] # blue
+    # opt: [0.8500, 0.3250, 0.0980] # orange
+    # exp: [0.4660, 0.6740, 0.1880] # green
+
+  labels:
+    gt: groundtruth
+    odom: odom
+    gps: gps
+    opt: optimizer
+    exp: expert
+  
+  dstdir: /local/plots/sim
+
+baselines:
+
+  method: Nelder-Mead # Nelder-Mead, BFGS, CMAES
+  max_fval_calls: 100
