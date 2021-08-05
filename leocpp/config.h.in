@@ -1,0 +1,7 @@
+#ifndef CONFIG_H_IN_
+#define CONFIG_H_IN_
+
+#define LEOCPP_EXPORT
+#define LEOCPP_EXTERN_EXPORT extern
+
+#endif

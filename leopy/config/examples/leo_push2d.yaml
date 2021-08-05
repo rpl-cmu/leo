@@ -1,0 +1,110 @@
+dataio:
+  srcdir_dataset: /local/datasets/real
+
+  # disc datasets [*-straight-line-*,  *-curves-*, *-trial1-*]
+  # dataset_name: 20200624_pushing-6in-disc-curves-test-keypoint
+  # dataset_name: 20200624_pushing-6in-disc-trial1-all-keypoint
+
+  # rect datasets [*-edges-*, *-corners-*]
+  # dataset_name: 20200928_rectangle-pushing-edges-test-keypoint
+  dataset_name: 20200928_rectangle-pushing-corners-test-keypoint
+
+  # ellipse datasets [*-straight-*, *-*]
+  # dataset_name: 20200928_ellipse-pushing-test-keypoint
+  # dataset_name: 20200928_ellipse-pushing-straight-test-keypoint
+
+  obj_shape: rect # disc, rect, ellip
+  dataset_type: push2d # push2d
+  model_type: fixed_cov # fixed_cov, varying_cov, fixed_cov_varying_mean  
+
+theta_init:
+
+  sigma_inv_tactile_rel_vals: [1, 1, 1e5]
+  sigma_inv_qs_push_motion_vals: [1e0, 1e0, 1e0]
+
+  sigma_inv_ee_pose_prior_vals: [1e4, 1e4, 1e4]
+  sigma_inv_sdf_intersection_vals: [1e2]
+  sigma_inv_binary_interseq_obj_vals: [1e6, 1e6, 1e6]
+  
+tactile_model:
+
+  # linear [disc+rect+ellip, auto-keypoints]
+  name: 10-25-2020-16-40-01_tf_regr_model_ser_epoch030
+
+  norm_img_feat: True
+  mean_img_feat: [0.2002, 0.6032]
+  std_img_feat: [0.0367, 0.1235]
+
+  # 0: disc, 1: rect-edges, 2: rect-corners, 3: ellip
+  class_label: 2
+  num_classes: 4
+
+  yaw_only_error: True
+  oracle: False
+  constant: False
+
+optim:
+  nsteps: 300
+  verbose: False
+
+  save_logger: False
+
+  save_fig: True
+  show_fig: False
+  vis_step: False
+
+leo:
+  max_iters: 30
+  n_data_train: 1
+  n_data_test: 1
+  test_idx_offset: 20
+
+  lr: 100 # 1000, 0.0001
+  lmd: 0.
+
+  pool_processes: 4
+  lr_scheduler: True
+  realizability_coeff: 0. # 0: ground truth, 1: fully realizable
+
+  sampler: False
+  n_samples: 1
+
+  tb_flag: True
+  save_video: False
+
+  use_traj_convergence: False
+  eps_diff_traj_err_trans: 5e-2
+  eps_diff_traj_err_rot: 5e-2
+  eps_traj_err_trans: 1e-1
+  eps_traj_err_rot: 1e-1
+
+logger:
+  cost_flag: True
+  save_file: False
+
+plot:
+  colors:
+    gt: dimgray
+    opt: tab:purple
+
+    # odom: [0, 0.4470, 0.7410] # blue
+    # gps: [0.4940, 0.1840, 0.5560] # blue
+    # opt: [0.8500, 0.3250, 0.0980] # orange
+    # exp: [0.4660, 0.6740, 0.1880] # green
+
+  labels:
+    gt: groundtruth
+    odom: odom
+    gps: gps
+    opt: optimizer
+    exp: expert
+
+  dstdir: /local/plots/real
+
+baselines:
+
+  opt_type: scipy # scipy, cmaes
+
+  scipy:
+    method: Nelder-Mead # Nelder-Mead, Powell, BFGS, CG
+    max_fval_calls: 100

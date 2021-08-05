@@ -1,0 +1,10 @@
+# scripts: test_lstm_net.py
+
+checkpoint_dir: 'sim/nav2dfix/dataset_0000/'
+test_dataset_dir: 'sim/nav2dfix/dataset_0000/test/'
+
+# checkpoint_dir: 'real/20200928_ellipse-pushing-test-keypoint/'
+# test_dataset_dir: 'real/20200928_ellipse-pushing-test-keypoint/test/'
+
+verbose: False
+show_plot: True

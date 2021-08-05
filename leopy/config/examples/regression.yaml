@@ -1,0 +1,78 @@
+model: ${leo_gn}
+enet: ${enet_rff}
+n_disp_step: 1000 # 200
+show_plot: True # True
+n_update: 5000
+n_inner_update: 1
+seed: 0
+n_hidden: 128
+n_samples: 100
+clip_norm: True
+lr: 1e-4
+
+enet_basic:
+  class: regression.EnergyNetBasic
+  tag: enet_basic
+  params:
+    n_hidden: 128
+
+enet_rff:
+  class: regression.EnergyNetRFF
+  tag: enet_rff
+  params:
+    n_hidden: 128
+    sigma: 1.
+    encoded_size: 128
+
+unroll_gd:
+  class: regression.UnrollGD
+  tag: unroll_gd
+  params:
+    n_inner_iter: 10
+    inner_lr: 1e-3
+    init_scheme: zero # zero, gt
+
+unroll_gn:
+  class: regression.UnrollGN
+  tag: unroll_gn
+  params:
+    n_inner_iter: 10
+    inner_lr: 1 # standard GN is 1.0
+    init_scheme: zero # zero, gt
+
+leo_gn:
+  class: regression.LEOGN
+  tag: leo_gn
+  params:
+    n_sample: 100
+    temp: 1e9
+    min_cov: 1e-3
+    max_cov: 10.0
+    n_inner_iter: 10
+    init_scheme: zero # zero, gt
+
+dcem:
+  class: regression.UnrollCEM
+  tag: dcem
+  params:
+    n_sample: 100
+    n_elite: 10
+    n_iter: 10
+    init_sigma: 1.
+    temp: 1.
+    normalize: True
+
+leo_cem:
+  class: regression.LEOCEM
+  tag: leo_cem
+  params:
+    n_sample: 100
+    temp: 1.
+    min_cov: 1e-3
+    max_cov: 10.0
+    cem_n_sample: 100
+    cem_n_elite: 10
+    cem_n_iter: 10
+    cem_init_sigma: 7.
+    cem_temp: 1.
+    cem_normalize: True

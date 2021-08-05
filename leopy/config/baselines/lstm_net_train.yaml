@@ -1,0 +1,32 @@
+# scripts: train_lstm_net.py
+
+dataset_name: sim/nav2dfix/dataset_0000
+# dataset_name: sim/nav2dtime/dataset_0001
+
+# dataset_name: real/20200928_rectangle-pushing-corners-test-keypoint
+# dataset_name: real/20200928_ellipse-pushing-test-keypoint
+
+prefix: ""
+random_seed: 0
+
+dataloader:
+  batch_size: 32
+  seq_len: 300
+  shuffle: True
+  num_workers: 8
+
+network:
+  model: lstm
+  hidden_size_lstm: 64
+  num_layers_lstm: 2
+  hidden_size_mlp: 32
+  output_size: 3
+
+train:
+  epochs: 30
+  learning_rate: 1e-3
+
+  reg_type: none
+  reg_weight: 1e-4
+
+  validation: True

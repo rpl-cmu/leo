@@ -1,0 +1,58 @@
+env:
+  area:
+    xmin: -50
+    xmax: 50
+    ymin: 0
+    ymax: 50
+
+options:
+  random_seed: 0 
+
+dataio:
+  dstdir_dataset: /local/datasets/sim
+  dataset_name: nav2dtime # nav2dfix, nav2dtime
+
+  n_datasets: 1
+  n_seqs: 50
+  
+  n_data_train: 30
+
+  start_ds_idx: 0
+  start_seq_idx: 0
+
+  load_poses_file: True
+  save_poses_file: False
+
+measurements:
+  noise_models:
+    random: False
+    
+    # nav2dfix/dataset_0000 (fixed_cov)
+    odom: [1e-1, 1e-1, 1e-1]
+    gps: [1., 1., 1e-1]
+    
+    # nav2dfix/dataset_0001 (fixed_cov)
+    # odom: [1., 2., 1e-1]
+    # gps: [2., 1., 1e-1]
+
+    # nav2dtime/dataset_0000 (varying_cov)
+    odom0: [1e-1, 1e-1, 1e-1]
+    gps0: [1, 1, 1e-1]
+    odom1: [1, 1, 1]
+    gps1: [1e-1, 1e-1, 1e-1]
+
+    # nav2dtime/dataset_0001 (varying_cov)
+    # odom0: [1, 1, 1]
+    # gps0: [1e-1, 1e-1, 1e-1]
+    # odom1: [1e-1, 1e-1, 1e-1]
+    # gps1: [1, 1, 1e-1]
+
+  num_steps_max: 500
+
+plot:
+  colors: [
+      [0.4660, 0.6740, 0.1880], # gt
+      [0, 0.4470, 0.7410], # odom
+      # [0.4940, 0.1840, 0.5560], # gps
+      [0.8500, 0.3250, 0.0980], # combined      
+    ]

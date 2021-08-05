@@ -1,0 +1,82 @@
+dataio:
+
+  dataset_type: nav2d
+  srcdir_dataset: /local/datasets/sim
+
+  dataset_name: nav2dtime/dataset_0000 # nav2dfix, nav2dtime
+  model_type: varying_cov # fixed_cov (for nav2dfix), varying_cov (for nav2dtime)
+
+options:
+  seed: 0
+
+theta_init:
+
+  noisy: False
+  sigma_noise: 5
+
+  sigma_inv_odom_vals: [1., 1., 1.]
+  sigma_inv_gps_vals: [1., 1., 1.]
+
+  sigma_inv_odom0_vals: [1., 1., 1.]
+  sigma_inv_gps0_vals: [1., 1., 1.]
+  sigma_inv_odom1_vals: [1., 1., 1.]
+  sigma_inv_gps1_vals: [1., 1., 1.]
+
+optim:
+  nsteps: 300 # 500
+  verbose: False
+
+  save_fig: True
+  show_fig: False
+  vis_step: False
+
+leo:
+  max_iters: 100
+  n_data_train: 5 # 30
+  n_data_test: 1 # 20
+  test_idx_offset: 30
+
+  lr: 1.
+  lmd: 0.
+
+  norm_loss: 1000
+
+  pool_processes: 4
+  lr_scheduler: True
+  realizability_coeff: 0. # 0: ground truth, 1: fully realizable
+
+  sampler: True
+  n_samples: 10
+  temp: 1. # high temp -> low cov
+
+  tb_flag: False
+  save_video: False
+
+  use_traj_convergence: True
+  eps_diff_traj_err_trans: 5e-2
+  eps_diff_traj_err_rot: 5e-2
+  eps_traj_err_trans: 1e-1
+  eps_traj_err_rot: 1e-1
+
+logger:
+  enable: False
+  save_csv: False
+
+plot:
+  colors:
+    gt: dimgray
+    opt: tab:purple
+
+  labels:
+    gt: groundtruth
+    odom: odom
+    gps: gps
+    opt: optimizer
+    exp: expert
+  
+  dstdir: /local/plots/sim
+
+baselines:
+
+  method: Nelder-Mead # Nelder-Mead, BFGS, CMAES
+  max_fval_calls: 100
