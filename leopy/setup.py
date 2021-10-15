@@ -5,7 +5,7 @@ install_requires = [line.rstrip() for line in open("requirements/requirements.tx
 setup(
     name="leopy",
     version="0.0.1",
-    description="Learning energy based models in graph optimization",
+    description="Learning energy based models in factor graph optimization",
     url="",
     author="Paloma Sodhi",
     author_email="psodhi@cs.cmu.edu",

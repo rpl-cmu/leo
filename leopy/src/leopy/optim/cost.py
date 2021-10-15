@@ -47,7 +47,11 @@ def binary_odom_factor_error(x, key_syms, key_ids, factor_inf, factor_meas, devi
     p2 = (x[key_ids[1], :]).view(1, -1) # n x 3
 
     est_val = (tf_utils.tf2d_between(p1, p2, device=device, requires_grad=True)).view(-1)
-    err = (torch.sub(est_val, factor_meas)).view(-1, 1) # 3 x 1
+
+    # err = (torch.sub(est_val, factor_meas)).view(-1, 1) # 3 x 1
+    est_val = est_val.view(1, -1)
+    factor_meas = factor_meas.view(1, -1)
+    err = (tf_utils.tf2d_between(factor_meas, est_val, device=device, requires_grad=True)).view(-1, 1)
 
     return err
 

@@ -1,7 +1,7 @@
 LEO: Learning energy based models in graph optimization
 ===================================================
 
-This repository contains the source code of the paper [LEO: Learning energy-based models in graph optimization]().
+This repository contains the source code of the paper [LEO: Learning Energy-based Models in Factor Graph optimization](https://arxiv.org/abs/2108.02274).
 
 # Content
 
@@ -20,8 +20,8 @@ pip install -e .
 
 Create a virtual python environment using [Anaconda](https://www.anaconda.com/products/individual):
 ```
-conda create -n <env_name> python=3.x.x
-conda activate <env_name>
+conda create -n leo python=3.7
+conda activate leo
 ```
 
 Any additional install requirements are detailed within each example.
@@ -80,21 +80,31 @@ Upon running the script, you should see the optimized robot trajectories being s
 
 ## Example 3: 2D real-world pushing
 
+Build and install `leocpp` cpp package. From the base directory execute:
 ```
-Coming soon
+mkdir -p build install
+cd build
+
+cmake -DCMAKE_INSTALL_PREFIX=../install ..
+make -j
+make install
 ```
 
 # Citing
-If you find this repository helpful in your publications, please cite the following:
+If you find this repository helpful in your publications, please consider citing the following:
 
 ```
 @inproceedings{sodhi2021leo,
-  title={{LEO: Learning energy-based models in graph optimization}},
+  title={{LEO: Learning energy-based models in factor graph optimization}},
   author={Sodhi, Paloma and Dexheimer, Eric and Mukadam, Mustafa and Anderson, Stuart and Kaess, Michael},
-  booktitle={arXiv},
+  booktitle={Conference on Robot Learning (CoRL)},
   year={2021}
 }
 ```
 
 # License
-This repository is licensed under the [MIT License](LICENSE.md).
+This repository is licensed under the [MIT License](LICENSE.md). 
+
+# **Issues**
+
+1) If you encounter an error `cython/leocpp/leocpp.pyx:6:0: relative cimport beyond main package is not allowed` when building the `leocpp` cpp package, execute `touch/cython/leocpp/__init__.py` from the build/ directory and run `make` again.
