@@ -2,7 +2,15 @@ numpy>=1<2
 scipy
 hydra-core==1.0.6
 matplotlib>=3.1.3
+torch
 higher
 random-fourier-features-pytorch
 lml@git+git://github.com/locuslab/lml.git
 setproctitle
+ipython
+
+pandas
+tensorboard
+attrdict
+pytorch3d
+pytorch_lightning

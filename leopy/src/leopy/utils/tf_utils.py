@@ -6,12 +6,6 @@ import math
 import gtsam
 
 import torch
-import torch.optim as optim
-import torch.nn as nn
-from torch.utils.data import Dataset, DataLoader
-from torch.utils.tensorboard import SummaryWriter
-import torchvision.transforms as transforms
-
 import pytorch3d.transforms as p3d_t
 
 def wrap_to_pi(arr):

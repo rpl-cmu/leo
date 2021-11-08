@@ -8,8 +8,6 @@ import hydra
 import glob
 
 import torch
-from torch.utils.tensorboard import SummaryWriter
-
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint
 

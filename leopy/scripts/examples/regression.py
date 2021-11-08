@@ -202,16 +202,20 @@ class RegressionExp():
             
                 plt.cla()
                 plot_energy_landscape(self.x_train, self.y_train, Enet=self.Enet, ax=self.ax, show_cbar=False)
+
                 if self.cfg.show_plot:
                     plt.show()
-                    plt.pause(1e-3)
-                savepath = os.path.join(directory, f"{step:06d}.png")
-                plt.savefig(savepath)
+                    plt.pause(1e-2)
 
-                modelpath = os.path.join(model_directory, "model.pt")
-                # modelpath = os.path.join(model_directory, f"model_inner_iter_{self.cfg.model.params.n_inner_iter:03d}.pt")
-                print(f"Saving model to {modelpath}")
-                torch.save(self.Enet.state_dict(), modelpath)
+                if self.cfg.save_plot:
+                    savepath = os.path.join(directory, f"{step:06d}.png")
+                    plt.savefig(savepath)
+
+                if self.cfg.save_model:
+                    modelpath = os.path.join(model_directory, "model.pt")
+                    # modelpath = os.path.join(model_directory, f"model_inner_iter_{self.cfg.model.params.n_inner_iter:03d}.pt")
+                    print(f"Saving model to {modelpath}")
+                    torch.save(self.Enet.state_dict(), modelpath)
 
             step += 1
 
@@ -292,16 +296,20 @@ class RegressionExp():
 
                 plt.cla()
                 plot_energy_landscape(self.x_train, self.y_train,  Enet=self.Enet, ax=self.ax, show_cbar=False, y_samples=y_samples)
+
                 if self.cfg.show_plot:
                     plt.show()
-                    plt.pause(1e-3)
-                savepath = os.path.join(directory, f"{step:06d}.png")
-                plt.savefig(savepath)
+                    plt.pause(1e-2)
 
-                modelpath = os.path.join(model_directory, "model.pt")
-                # modelpath = os.path.join(model_directory, f"model_inner_iter_{self.cfg.model.params.n_inner_iter:03d}.pt")
-                print(f"Saving model to {modelpath}")
-                torch.save(self.Enet.state_dict(), modelpath)
+                if self.cfg.save_plot:
+                    savepath = os.path.join(directory, f"{step:06d}.png")
+                    plt.savefig(savepath)
+
+                if self.cfg.save_model:
+                    modelpath = os.path.join(model_directory, "model.pt")
+                    # modelpath = os.path.join(model_directory, f"model_inner_iter_{self.cfg.model.params.n_inner_iter:03d}.pt")
+                    print(f"Saving model to {modelpath}")
+                    torch.save(self.Enet.state_dict(), modelpath)
             
             step += 1
 

@@ -13,15 +13,15 @@ The code contains three sets of experiments:
 ```
 # Installation
 
-Install the `leopy` python package locally. In the `leopy/` dir execute:
-```
-pip install -e .
-```
-
 Create a virtual python environment using [Anaconda](https://www.anaconda.com/products/individual):
 ```
 conda create -n leo python=3.7
 conda activate leo
+```
+
+Install the `leopy` python package locally. In the `leopy/` dir execute:
+```
+pip install -e .
 ```
 
 Any additional install requirements are detailed within each example.
@@ -30,7 +30,7 @@ Any additional install requirements are detailed within each example.
 
 We borrow this example from [The Differentiable Cross-Entropy Method](https://github.com/facebookresearch/dcem/) repository. We extend the example by adding in energy-based learning method (LEO), unrolling Gauss-Newton method and additional preprocessing and visualization utilities.
 
-To run the regression example:
+To run the regression example, execute in the `leopy/` dir:
 ```
 python scripts/examples/regression.py
 ```
@@ -55,11 +55,11 @@ git checkout tags/4.0.0
 
 Build and install the gtsam library:
 ```
-cmake -DGTSAM_INSTALL_CYTHON_TOOLBOX=ON -DGTSAM_PYTHON_VERSION=3.x.x ..
+cmake -DGTSAM_INSTALL_CYTHON_TOOLBOX=ON -DGTSAM_PYTHON_VERSION=3.7 ..
 make -j
 make install
 ```
-Use the same python version `3.x.x` as the one used in the conda environment. If doing a local install, additionally pass in the install path `-DCMAKE_INSTALL_PREFIX=../install`.
+If doing a local install, additionally pass in the install path `-DCMAKE_INSTALL_PREFIX=../install`.
 
 Download the 2D navigation datasets locally by running:
 ```
@@ -78,18 +78,6 @@ Upon running the script, you should see the optimized robot trajectories being s
 
 <br />
 
-## Example 3: 2D real-world pushing
-
-Build and install `leocpp` cpp package. From the base directory execute:
-```
-mkdir -p build install
-cd build
-
-cmake -DCMAKE_INSTALL_PREFIX=../install ..
-make -j
-make install
-```
-
 # Citing
 If you find this repository helpful in your publications, please consider citing the following:
 
@@ -104,7 +92,3 @@ If you find this repository helpful in your publications, please consider citing
 
 # License
 This repository is licensed under the [MIT License](LICENSE.md). 
-
-# **Issues**
-
-1) If you encounter an error `cython/leocpp/leocpp.pyx:6:0: relative cimport beyond main package is not allowed` when building the `leocpp` cpp package, execute `touch/cython/leocpp/__init__.py` from the build/ directory and run `make` again.
