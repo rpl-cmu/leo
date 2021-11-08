@@ -244,7 +244,8 @@ class Cost():
         if log: self.dataframe = pd.DataFrame()
 
         fval = torch.tensor([0.], requires_grad=True, device=self.device)
-
+        num_factors = torch.tensor([0.], requires_grad=True, device=self.device)
+        
         for tstep in range(1, nsteps):
 
             # filter out curr step factors
@@ -265,22 +266,22 @@ class Cost():
 
                 if (factor_name == 'gps'):
                     factor_meas_val = torch.tensor(factor_meas[idx], device=self.device)
-                    factor_inf = torch.diag(self.theta.get_sigma_inv(factor_name, z=factor_meas_val)) ** 2
+                    factor_inf = torch.diag(self.theta.get_sigma_inv(factor_name, z=factor_meas_val))
                     factor_error = unary_factor_error(x, key_syms, key_ids, factor_inf, factor_meas_val[0:3], device=self.device) if (factor_inf.requires_grad) else None
                 elif (factor_name == 'odom'):
                     factor_meas_val = torch.tensor(factor_meas[idx], device=self.device)                    
-                    factor_inf = torch.diag(self.theta.get_sigma_inv(factor_name, z=factor_meas_val)) ** 2
+                    factor_inf = torch.diag(self.theta.get_sigma_inv(factor_name, z=factor_meas_val))
                     factor_error = binary_odom_factor_error(x, key_syms, key_ids, factor_inf, factor_meas_val[0:3], device=self.device) if (factor_inf.requires_grad) else None
                 elif (factor_name == 'ee_pose_prior'):
                     factor_meas_val = torch.tensor(factor_meas[idx], device=self.device)                    
-                    factor_inf = torch.diag(self.theta.get_sigma_inv(factor_name, z=factor_meas_val)) ** 2
+                    factor_inf = torch.diag(self.theta.get_sigma_inv(factor_name, z=factor_meas_val))
                     factor_error = unary_factor_error(x, key_syms, key_ids, factor_inf, factor_meas_val, device=self.device) if (factor_inf.requires_grad) else None
                 elif (factor_name == 'qs_push_motion'):
                     params_qs = qs_motion_factor_params(self.params.dataio.obj_shape)
-                    factor_inf = torch.diag(self.theta.get_sigma_inv(factor_name, z=None)) ** 2
+                    factor_inf = torch.diag(self.theta.get_sigma_inv(factor_name, z=None))
                     factor_error = qs_motion_factor_error(x, key_syms, key_ids, factor_inf, device=self.device, params=params_qs) if (factor_inf.requires_grad) else None
                 elif (factor_name == 'sdf_motion'):
-                    factor_inf = torch.diag(self.theta.get_sigma_inv(factor_name, z=None)) ** 2
+                    factor_inf = torch.diag(self.theta.get_sigma_inv(factor_name, z=None))
                     factor_error = sdf_intersection_factor_error(x, key_syms, key_ids, factor_inf) if (factor_inf.requires_grad) else None
                 elif (factor_name == 'tactile_rel'):
                     if (self.params.tactile_model.oracle == True):
@@ -291,11 +292,12 @@ class Cost():
                         else:
                             tf_pred = tactile_model_output_fixed(tactile_model, img_feats=factor_meas[idx], device=self.device, params=self.params.tactile_model) # fixed model weights
 
-                    factor_inf = torch.diag(self.theta.get_sigma_inv(factor_name, z=None)) ** 2
+                    factor_inf = torch.diag(self.theta.get_sigma_inv(factor_name, z=None))
                     factor_error = tactile_rel_meas_factor_error(x, key_syms, key_ids, factor_inf, tf_pred, device=self.device) # if (factor_inf.requires_grad) else factor_error
                 
                 factor_cost = whiten_factor_error(factor_error, factor_inf) if (factor_error is not None) else torch.tensor([0.], requires_grad=True, device=self.device)
                 fval = fval + 0.5 * factor_cost
+                num_factors = num_factors + 1
 
                 factor_cost_unwhtn = torch.matmul(factor_error.permute(1, 0), factor_error) if (factor_error is not None) else torch.tensor([0.], requires_grad=True, device=self.device)
                 if log: data_dict = update_data_dict(data_dict, factor_name=factor_name, factor_cost=factor_cost_unwhtn, factor_inf=factor_inf)
@@ -303,7 +305,7 @@ class Cost():
             if log: data_row = dict_to_row(data_dict=data_dict, step=tstep)
             if log: self.dataframe = self.dataframe.append(data_row)
         
-        fval = fval / self.params.leo.norm_loss
+        fval = fval / num_factors
 
         return fval
 

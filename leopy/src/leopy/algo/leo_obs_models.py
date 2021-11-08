@@ -108,7 +108,7 @@ def init_theta(params):
 
 
 def min_clip(w):
-    w_min = 1e-1 * torch.ones(w.shape, requires_grad=True, device=device)
+    w_min = 1e-4 * torch.ones(w.shape, requires_grad=True, device=device)
     w = torch.max(w_min, w)
     return w
 
@@ -137,7 +137,10 @@ class ThetaNav2dFixedCov(nn.Module):
         self.sigma_inv_odom.data = min_clip(self.sigma_inv_odom.data)
         self.sigma_inv_gps.data = min_clip(self.sigma_inv_gps.data)
 
+    def norm(self):
+        l2_norm = torch.norm(self.sigma_inv_odom) ** 2 + torch.norm(self.sigma_inv_gps) ** 2
 
+        return l2_norm
 class ThetaNav2dVaryingCov(nn.Module):
     def __init__(self, sigma_inv_odom0_vals=None, sigma_inv_gps0_vals=None, sigma_inv_odom1_vals=None, sigma_inv_gps1_vals=None):
         super().__init__()
@@ -173,6 +176,13 @@ class ThetaNav2dVaryingCov(nn.Module):
         self.sigma_inv_odom1.data = min_clip(self.sigma_inv_odom1.data)
         self.sigma_inv_gps1.data = min_clip(self.sigma_inv_gps1.data)
 
+    def norm(self):
+
+        l2_norm = torch.norm(self.sigma_inv_odom0) ** 2 + torch.norm(self.sigma_inv_odom1) ** 2 + \
+            torch.norm(self.sigma_inv_gps0) ** 2 + \
+            torch.norm(self.sigma_inv_gps1) ** 2
+
+        return l2_norm
 
 class ThetaPush2dFixedCov(nn.Module):
     def __init__(self, sigma_inv_tactile_rel_vals=None, sigma_inv_qs_push_motion_vals=None,

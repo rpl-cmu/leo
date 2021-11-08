@@ -17,10 +17,11 @@ theta_init:
   sigma_inv_odom_vals: [1., 1., 1.]
   sigma_inv_gps_vals: [1., 1., 1.]
 
-  sigma_inv_odom0_vals: [1., 1., 1.]
-  sigma_inv_gps0_vals: [1., 1., 1.]
+  # sigma_sq format
+  sigma_inv_odom0_vals: [0.25, 0.25, 0.25]
+  sigma_inv_gps0_vals: [1e-2, 1e-2, 0.25]
   sigma_inv_odom1_vals: [1., 1., 1.]
-  sigma_inv_gps1_vals: [1., 1., 1.]
+  sigma_inv_gps1_vals: [1e-2, 1e-2, 1e-2]
 
 optim:
   nsteps: 300 # 500
@@ -36,10 +37,9 @@ leo:
   n_data_test: 1 # 20
   test_idx_offset: 30
 
-  lr: 1.
+  lr: 1e-1
   lmd: 0.
-
-  norm_loss: 1000
+  l2_wt: 1e-3
 
   pool_processes: 4
   lr_scheduler: True

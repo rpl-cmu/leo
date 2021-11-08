@@ -318,7 +318,8 @@ def run(params):
                 xyh_est=x_opt[0:params.optim.nsteps, :].detach().cpu().numpy(), xyh_gt=x_exp[0:params.optim.nsteps, :].detach().cpu().numpy())
                     
         # leo loss
-        loss = 1/n_data * (cost_exp - cost_opt)
+        l2_reg = params.leo.l2_wt * theta.norm()
+        loss = 1/n_data * (cost_exp - cost_opt) + l2_reg
 
         # test trajectory errors
         # traj_err_trans_test, traj_err_rot_test, df = eval_learnt_params(theta, theta_exp, params=params, dataframe=df)

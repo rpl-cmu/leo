@@ -192,8 +192,8 @@ def run_optimizer(cost, params=None):
 
             sigma_inv_val = cost.theta.get_sigma_inv(factor_name, factor_meas[idx])
             sigma_inv_val = sigma_inv_val.detach().cpu().numpy()
-            factor_cov = np.reciprocal(sigma_inv_val) # factor_cov: sigma format
-            # factor_cov = np.reciprocal(np.sqrt(sigma_inv_val)) # factor_cov: sigma_sq format
+            # factor_cov = np.reciprocal(sigma_inv_val) # factor_cov: sigma format
+            factor_cov = np.reciprocal(np.sqrt(sigma_inv_val)) # factor_cov: sigma_sq format
 
             if (factor_name == 'gps'):
                 graphopt.graph = add_unary_factor(
